@@ -23,7 +23,8 @@ import static com.google.errorprone.BugPattern.SeverityLevel.WARNING;
 public class BadNamesChecker extends BugChecker implements
         BugChecker.IdentifierTreeMatcher,
         BugChecker.MethodInvocationTreeMatcher,
-        BugChecker.MethodTreeMatcher {
+        BugChecker.MethodTreeMatcher, 
+        BugChecker.IfTreeMatcher {
 
     @java.lang.Override
     public Description matchIdentifier(IdentifierTree identifierTree, VisitorState visitorState) {
@@ -31,6 +32,14 @@ public class BadNamesChecker extends BugChecker implements
         // or just declarations?
         Name identifier = identifierTree.getName();
         return checkName(identifierTree, identifier);
+    }
+
+    @Override
+    public Description matchIf(IfTree tree, VisitorState state)
+    {
+        return buildDescription(tree)
+            .setMessage("We found an if")
+            .build();
     }
 
     @Override
