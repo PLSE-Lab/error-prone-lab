@@ -37,9 +37,13 @@ public class BadNamesChecker extends BugChecker implements
     @Override
     public Description matchIf(IfTree tree, VisitorState state)
     {
-        return buildDescription(tree)
-            .setMessage("We found an if")
-            .build();
+        if (tree.getElseStatement() == null)
+        {
+            return buildDescription(tree)
+                .setMessage("We found an if without an else")
+                .build();
+        }
+        return Description.NO_MATCH;
     }
 
     @Override
